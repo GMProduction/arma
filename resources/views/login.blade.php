@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/myStyle.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}" type="text/css">
- 
+
     <!-- Styles -->
- 
+
 </head>
 
 
 <body>
-	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-lg-12">
@@ -33,15 +33,16 @@
 						</div>
 					<h3 class="text-logo">Login sebagai admin</h3>
 					<br>
-					<form class="text-center">
-						<input class="form-control border-0" type="" name="" placeholder="Type Your Username">
+					<form class="text-center" action="/login" method="POST">
+                        @csrf
+						<input class="form-control border-0" type="text" name="username" placeholder="Type Your Username">
 						<br>
-						<input class="form-control border-0" type="" name="" placeholder="Type Your Password">
+						<input class="form-control border-0" type="password" name="password" placeholder="Type Your Password">
 						<br>
 						<button class="btn btn-primary btn-sm border-0" type="submit" name="submit">Login</button>
 					</form>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>

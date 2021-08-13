@@ -31,7 +31,7 @@
                         #
                     </th>
                     <th>
-                        Minggu Ke 
+                        Minggu Ke
                     </th>
                     <th>
                         Nama Barang
@@ -50,29 +50,32 @@
 
                 </thead>
 
-                <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        15
-                    </td>
-                    <td>
-                        Cheese Cake
-                    </td>
-                    <td>
-                        10
-                    </td>
-                    <td>
-                        800000
-                    </td>
-                  
-                    <td>
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#tambahbarang">Ubah</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
-                    </td>
-                </tr>
+                @foreach($data as $v)
+                    <tr>
+                        <td>
+                            {{ $loop->index + 1 }}
+                        </td>
+                        <td>
+                            {{ $v->minggu }}
+                        </td>
+                        <td>
+                            {{ $v->barang->nama }}
+                        </td>
+                        <td>
+                            {{ $v->qty }}
+                        </td>
+                        <td>
+                            {{ $v->total }}
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#tambahbarang">Ubah</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
+                        </td>
+                    </tr>
+                @endforeach
+
 
             </table>
 
@@ -92,7 +95,7 @@
                         </div>
                         <div class="modal-body">
                             <form>
-                                
+
 
                                 <div class="mb-3">
                                     <label for="barang" class="form-label">Barang</label>
@@ -106,7 +109,7 @@
                                 </div>
 
 
-                                
+
                                 <div class="mb-3">
                                     <label for="qty" class="form-label">Qty</label>
                                     <input type="number" class="form-control" id="qty">
@@ -126,7 +129,7 @@
                 </div>
             </div>
 
-          
+
         </div>
 
     </section>

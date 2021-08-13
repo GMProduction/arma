@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin/dashboard');
-});
 
-Route::get('/login', function () {
-    return view('login');
-});
-
+Route::get('/', [AuthController::class, 'showFormLogin']);
+Route::post("/login", [AuthController::class, 'login']);
+Route::get("/logout", [AuthController::class, 'logout']);
 
 
 
@@ -30,13 +27,13 @@ Route::get('/admin', function () {
     return view('admin/dashboard');
 });
 
-Route::get('/admin/barang', function () {
-    return view('admin/barang/barang');
-});
+Route::get('/admin/barang', [BarangController::class, 'index']);
+Route::post('/admin/barang/tambah', [BarangController::class, 'add']);
+Route::post('/admin/barang/edit', [BarangController::class, 'edit']);
+Route::post('/admin/barang/hapus/{id}', [BarangController::class, 'destroy']);
 
-Route::get('/admin/penjualan', function () {
-    return view('admin/penjualan/penjualan');
-});
+Route::get('/admin/penjualan', [PenjualanController::class, 'index']);
+Route::get('/admin/hitung', [PenjualanController::class, 'hitung']);
 
 Route::get('/admin/laporan', function () {
     return view('admin/laporan/laporan');
