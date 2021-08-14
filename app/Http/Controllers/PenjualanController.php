@@ -56,12 +56,39 @@ class PenjualanController
         $tempHimpunanKeDua = ($sumYt - ($himpunan * $sumXt)) / $constant;
         $himpunanKeDua = round($tempHimpunanKeDua, 5);
         $prediksi = ($himpunan * $peramalan[$constant -1]['yt']) + $himpunanKeDua + ($constant - 1) - ($himpunan * $constant);
+
+        $prediksiTiapMinggu = [];
+        $sumRes = 0;
+        for ($i = 0; $i < $constant; $i++ ){
+            $minggu = $data[$i]->minggu;
+            $regresive = round($himpunanKeDua, 0, PHP_ROUND_HALF_UP);
+            $y = $data[$i]->qty;
+            $yAksen = $y > $regresive ? ($regresive + 1) : $regresive;
+            $error = $y - $himpunanKeDua;
+            $errorAbsolute = abs(round($error, 3));
+            $res = $errorAbsolute / $y;
+            $sumRes = $sumRes + $res;
+            $temp = [
+                'periode' => $minggu,
+                'y' => $y,
+                'y_aksen' => $yAksen,
+                'error' => round($error, 3),
+                'error_absolute' => $errorAbsolute,
+                'result' => round($res, 7)
+            ];
+            array_unshift($prediksiTiapMinggu, $temp);
+        }
+
+        $mape = ((1 / $constant) * $sumRes) * 100;
         return [
             'peramalan' => $peramalan,
             'summary' => $summary,
             'himpunan' => $himpunan,
             'himpunanKe2'=> $himpunanKeDua,
-            'prediksi' => (int) $prediksi
+            'prediksi' => (int) $prediksi,
+            'mape_data' => $prediksiTiapMinggu,
+            'sum_mape_res' => $sumRes ,
+            'mape' => round($mape, 3)
         ];
     }
 }

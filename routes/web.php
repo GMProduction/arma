@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,9 +40,13 @@ Route::get('/admin/laporan', function () {
     return view('admin/laporan/laporan');
 });
 
-Route::get('/admin/barangmasuk', function () {
-    return view('admin/barangmasuk/barangmasuk');
-});
+Route::get('/admin/barangmasuk', [BarangMasukController::class, 'index']);
+Route::get('/admin/barangmasuk/minggu', [BarangMasukController::class, 'getMingguKe']);
+Route::post('/admin/barangmasuk/prediksi', [BarangMasukController::class, 'prediksi']);
+Route::post('/admin/barangmasuk/tambah', [BarangMasukController::class, 'tambahStok']);
+Route::post('/admin/barangmasuk/edit', [BarangMasukController::class, 'editStok']);
+Route::post('/admin/barangmasuk/hapus/{id}', [BarangMasukController::class, 'hapusStok']);
+
 
 Route::get('/admin/admin', function () {
     return view('admin/admin/admin');
