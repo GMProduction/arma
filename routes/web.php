@@ -34,6 +34,8 @@ Route::post('/admin/barang/edit', [BarangController::class, 'edit']);
 Route::post('/admin/barang/hapus/{id}', [BarangController::class, 'destroy']);
 
 Route::get('/admin/penjualan', [PenjualanController::class, 'index']);
+Route::post('/admin/penjualan/tambah', [PenjualanController::class, 'add']);
+Route::post('/admin/penjualan/edit', [PenjualanController::class, 'edit']);
 Route::get('/admin/hitung', [PenjualanController::class, 'hitung']);
 
 Route::get('/admin/laporan', function () {

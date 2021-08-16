@@ -4,17 +4,63 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Barang;
 use App\Models\Penjualan;
+use Illuminate\Http\Request;
 
 class PenjualanController
 {
     public function index()
     {
         $data = Penjualan::with('barang')->get();
-//        return $data->toArray();
-        return view('admin/penjualan/penjualan')->with(['data' => $data]);
+        $barang = Barang::all();
+        return view('admin/penjualan/penjualan')->with(['data' => $data, 'barang' => $barang]);
     }
 
+
+    public function add(Request $request)
+    {
+        try {
+            $idBarang = $request->request->get('id');
+            $qty = $request->request->get('qty');
+            $barang = Barang::find($idBarang);
+            $harga = $barang->harga;
+            $total = $harga * $qty;
+            $lastPenjualan = Penjualan::where('barang_id', '=', $idBarang)->orderBy('minggu', 'DESC')->first();
+            $mingguKe = 1;
+            if ($lastPenjualan) {
+                $mingguKe = $lastPenjualan->minggu + 1;
+            }
+            $penjualan = new Penjualan();
+            $penjualan->minggu = $mingguKe;
+            $penjualan->barang_id = $idBarang;
+            $penjualan->harga = $harga;
+            $penjualan->qty = $qty;
+            $penjualan->total = $total;
+            $penjualan->save();
+            return response()->json('Success', 200);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
+        }
+
+    }
+
+    public function edit(Request $request)
+    {
+        try {
+            $id = $request->request->get('id');
+            $qty = $request->request->get('qty');
+            $penjualan = Penjualan::find($id);;
+            $harga = $penjualan->harga;
+            $total = $qty * $harga;
+            $penjualan->qty = $qty;
+            $penjualan->total = $total;
+            $penjualan->save();
+            return response()->json('Success', 200);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
+        }
+    }
     public function hitung()
     {
         $constant = 12;
@@ -24,10 +70,10 @@ class PenjualanController
         $sumXt = 0;
         $sumXY = 0;
         $sumX2 = 0;
-        for ($i = 0; $i < $constant; $i++){
+        for ($i = 0; $i < $constant; $i++) {
             $minggu = $data[$i]->minggu;
             $yt = $data[$i]->qty;
-            $xt = $i === ($constant - 1) ? 0 : $data[$i+1]->qty;
+            $xt = $i === ($constant - 1) ? 0 : $data[$i + 1]->qty;
             $xy = $yt * $xt;
             $x2 = pow($xt, 2);
             $sumYt = $sumYt + $yt;
@@ -51,15 +97,15 @@ class PenjualanController
             'x2' => $sumX2
         ];
 
-        $tempHimpunan =  (($constant * $sumXY) - ($sumXt * $sumYt)) / (($constant * $sumX2) - (pow($sumXt, 2)));
+        $tempHimpunan = (($constant * $sumXY) - ($sumXt * $sumYt)) / (($constant * $sumX2) - (pow($sumXt, 2)));
         $himpunan = round($tempHimpunan, 5);
         $tempHimpunanKeDua = ($sumYt - ($himpunan * $sumXt)) / $constant;
         $himpunanKeDua = round($tempHimpunanKeDua, 5);
-        $prediksi = ($himpunan * $peramalan[$constant -1]['yt']) + $himpunanKeDua + ($constant - 1) - ($himpunan * $constant);
+        $prediksi = ($himpunan * $peramalan[$constant - 1]['yt']) + $himpunanKeDua + ($constant - 1) - ($himpunan * $constant);
 
         $prediksiTiapMinggu = [];
         $sumRes = 0;
-        for ($i = 0; $i < $constant; $i++ ){
+        for ($i = 0; $i < $constant; $i++) {
             $minggu = $data[$i]->minggu;
             $regresive = round($himpunanKeDua, 0, PHP_ROUND_HALF_UP);
             $y = $data[$i]->qty;
@@ -84,10 +130,10 @@ class PenjualanController
             'peramalan' => $peramalan,
             'summary' => $summary,
             'himpunan' => $himpunan,
-            'himpunanKe2'=> $himpunanKeDua,
-            'prediksi' => (int) $prediksi,
+            'himpunanKe2' => $himpunanKeDua,
+            'prediksi' => (int)$prediksi,
             'mape_data' => $prediksiTiapMinggu,
-            'sum_mape_res' => $sumRes ,
+            'sum_mape_res' => $sumRes,
             'mape' => round($mape, 3)
         ];
     }
