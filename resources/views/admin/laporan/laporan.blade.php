@@ -82,9 +82,7 @@
                             {{ $v->prediksi == null ? '-' : $v->prediksi->masuk  }}
                         </td>
                         <td>
-                            {{ $v->qty}}
-                        </td>
-
+                            {{ $v->qty  }}
                         </td>
 
                     </tr>
@@ -96,7 +94,7 @@
         </div>
 
 
-        <div>
+        </div>
 
 
 
