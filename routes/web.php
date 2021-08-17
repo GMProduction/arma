@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,9 +39,7 @@ Route::post('/admin/penjualan/tambah', [PenjualanController::class, 'add']);
 Route::post('/admin/penjualan/edit', [PenjualanController::class, 'edit']);
 Route::get('/admin/hitung', [PenjualanController::class, 'hitung']);
 
-Route::get('/admin/laporan', function () {
-    return view('admin/laporan/laporan');
-});
+Route::get('/admin/laporan', [LaporanController::class, 'index']);
 
 Route::get('/admin/barangmasuk', [BarangMasukController::class, 'index']);
 Route::get('/admin/barangmasuk/minggu', [BarangMasukController::class, 'getMingguKe']);

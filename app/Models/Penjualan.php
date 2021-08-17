@@ -14,4 +14,9 @@ class Penjualan extends Model
     {
         return $this->belongsTo(Barang::class, 'barang_id');
     }
+
+    public function prediksi()
+    {
+        return $this->hasOne(Prediksi::class, 'penjualan_id');
+    }
 }

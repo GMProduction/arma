@@ -37,10 +37,11 @@ class BarangController
             $barang->nama = $request->request->get('nama');
             $barang->harga = $request->request->get('harga');
             $barang->satuan = $request->request->get('satuan');
-            $barang->qty = 0;
+            $barang->qty = $request->request->get('qty');
             $barang->save();
             return redirect('/admin/barang')->with('success', 'success menambahkan barang');
         }catch (\Exception $e){
+            dd($e);
             return redirect('/admin/barang')->with('failed', 'gagal menambahkan barang');
         }
     }

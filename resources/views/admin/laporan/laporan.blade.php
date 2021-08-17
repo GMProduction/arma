@@ -33,15 +33,21 @@
                         Nama Barang
                     </th>
                     <th>
-                        Minggu Ke 
+                        Minggu (Penjualan)
+                    </th>
+                    <th>
+                        Minggu (Prediksi)
                     </th>
 
                     <th>
-                        Hasil Prediksi
+                        Prediksi
                     </th>
 
                     <th>
-                        Barang Masuk
+                        Kesalahan
+                    </th>
+                    <th>
+                        Masuk
                     </th>
 
                     <th>
@@ -52,29 +58,38 @@
 
                 </thead>
 
-                <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        Cheese Cake
-                    </td>
-                    <td>
-                       15
-                    </td>
-                    <td>
-                        21
-                    </td>
-                    <td>
-                        21
-                    </td>
-                    <td>
-                      21
-                    </td>
-                
-                    </td>
-            
-                </tr>
+                @foreach($data as $v)
+                    <tr>
+                        <td>
+                            {{ $loop->index + 1 }}
+                        </td>
+                        <td>
+                            {{ $v->barang->nama }}
+                        </td>
+                        <td>
+                            {{ $v->minggu }}
+                        </td>
+                        <td>
+                            {{ $v->prediksi == null ? '-' : $v->prediksi->minggu  }}
+                        </td>
+                        <td>
+                            {{ $v->prediksi == null ? '-' : $v->prediksi->prediksi  }}
+                        </td>
+                        <td>
+                            {{ $v->prediksi == null ? '-' : $v->prediksi->kesalahan  }}
+                        </td>
+                        <td>
+                            {{ $v->prediksi == null ? '-' : $v->prediksi->masuk  }}
+                        </td>
+                        <td>
+                            {{ $v->qty}}
+                        </td>
+
+                        </td>
+
+                    </tr>
+                @endforeach
+
 
             </table>
 
@@ -95,7 +110,7 @@
 
         })
 
-  
+
     </script>
 
 @endsection

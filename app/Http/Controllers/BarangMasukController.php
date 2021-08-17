@@ -18,13 +18,14 @@ class BarangMasukController
         return view('admin/barangmasuk/barangmasuk')->with(['data' => $data, 'prediksi' => $dataPrediksi]);
     }
 
-    public function getMingguKe(Request $request){
+    public function getMingguKe(Request $request)
+    {
         try {
             $idBarang = $request->query->get("id");
             $data = Penjualan::where('barang_id', '=', $idBarang)->orderBy('minggu', 'DESC')->first();
             return response()->json(['data' => $data], 200);
-        }catch (\Exception $e){
-            return response()->json('Error '.$e, 500);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
         }
     }
 
@@ -35,18 +36,27 @@ class BarangMasukController
             $idBarang = $request->request->get("id");
             $constant = 12;
             $data = Penjualan::where('barang_id', '=', $idBarang)->orderBy('minggu', 'DESC')->take($constant)->get();
-            if(count($data) < $constant){
-                return response()->json(['msg' =>'Data Tidak Bisa Di Perdiksi Karena Belum Memenuhi Nilai Konstan '.$constant, 'code' => 202], 200);
+            if (count($data) < $constant) {
+                return response()->json(['msg' => 'Data Tidak Bisa Di Perdiksi Karena Belum Memenuhi Nilai Konstan ' . $constant, 'code' => 202], 200);
+            }
+
+            $lastPrediksi = Prediksi::where('barang_id', '=', $idBarang)->orderBy('minggu', 'DESC')->first();
+            if ($lastPrediksi) {
+                $mingguTerakhirPrediksi = $lastPrediksi->minggu;
+                $mingguTerakhirPenjualan = $data[0]->minggu + 1;
+                if ($mingguTerakhirPrediksi === $mingguTerakhirPenjualan) {
+                    return response()->json(['msg' => 'Data Minggu Ke ' . $data[0]->minggu . ' Sudah Di Prediksi', 'code' => 202], 200);
+                }
             }
             $peramalan = [];
             $sumYt = 0;
             $sumXt = 0;
             $sumXY = 0;
             $sumX2 = 0;
-            for ($i = 0; $i < $constant; $i++){
+            for ($i = 0; $i < $constant; $i++) {
                 $minggu = $data[$i]->minggu;
                 $yt = $data[$i]->qty;
-                $xt = $i === ($constant - 1) ? 0 : $data[$i+1]->qty;
+                $xt = $i === ($constant - 1) ? 0 : $data[$i + 1]->qty;
                 $xy = $yt * $xt;
                 $x2 = pow($xt, 2);
                 $sumYt = $sumYt + $yt;
@@ -70,15 +80,15 @@ class BarangMasukController
                 'x2' => $sumX2
             ];
 
-            $tempHimpunan =  (($constant * $sumXY) - ($sumXt * $sumYt)) / (($constant * $sumX2) - (pow($sumXt, 2)));
+            $tempHimpunan = (($constant * $sumXY) - ($sumXt * $sumYt)) / (($constant * $sumX2) - (pow($sumXt, 2)));
             $himpunan = round($tempHimpunan, 5);
             $tempHimpunanKeDua = ($sumYt - ($himpunan * $sumXt)) / $constant;
             $himpunanKeDua = round($tempHimpunanKeDua, 5);
-            $prediksi = ($himpunan * $peramalan[$constant -1]['yt']) + $himpunanKeDua + ($constant - 1) - ($himpunan * $constant);
+            $prediksi = ($himpunan * $peramalan[$constant - 1]['yt']) + $himpunanKeDua + ($constant - 1) - ($himpunan * $constant);
 
             $prediksiTiapMinggu = [];
             $sumRes = 0;
-            for ($i = 0; $i < $constant; $i++ ){
+            for ($i = 0; $i < $constant; $i++) {
                 $minggu = $data[$i]->minggu;
                 $regresive = round($himpunanKeDua, 0, PHP_ROUND_HALF_UP);
                 $y = $data[$i]->qty;
@@ -103,16 +113,17 @@ class BarangMasukController
             $tbPrediksi = new Prediksi();
             $tbPrediksi->minggu = $data[0]->minggu + 1;
             $tbPrediksi->barang_id = $idBarang;
-            $tbPrediksi->prediksi = (int) $prediksi;
-            $tbPrediksi->kesalahan = (int) $mape;
+            $tbPrediksi->prediksi = (int)$prediksi;
+            $tbPrediksi->kesalahan = (int)$mape;
             $tbPrediksi->masuk = 0;
+            $tbPrediksi->penjualan_id = $data[0]->id;
             $tbPrediksi->save();
             return response()->json([
                 'msg' => 'Berhasil Menyimpan Prediksi',
                 'code' => 200
             ], 200);
-        }catch (\Exception $e){
-            return response()->json('Error '.$e, 500);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
         }
 
 //        return [
@@ -144,8 +155,8 @@ class BarangMasukController
             $barang->qty = $currentQty + $qty;
             $barang->save();
             return response()->json('Success', 200);
-        }catch (\Exception $e){
-            return response()->json('Error '.$e, 500);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
         }
     }
 
@@ -166,8 +177,8 @@ class BarangMasukController
             $barang->qty = ($currentQty - $curretQtyPredict) + $qty;
             $barang->save();
             return response()->json('Success', 200);
-        }catch (\Exception $e){
-            return response()->json('Error '.$e, 500);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
         }
     }
 
@@ -184,8 +195,8 @@ class BarangMasukController
             $barang->qty = ($currentQty - $curretQtyPredict);
             $barang->save();
             return response()->json('Success', 200);
-        }catch (\Exception $e){
-            return response()->json('Error '.$e, 500);
+        } catch (\Exception $e) {
+            return response()->json('Error ' . $e, 500);
         }
     }
 }

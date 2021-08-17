@@ -39,6 +39,9 @@
                         nama Barang
                     </th>
                     <th>
+                        Qty
+                    </th>
+                    <th>
                         harga
                     </th>
 
@@ -61,6 +64,9 @@
                             {{ $v->nama }}
                         </td>
                         <td>
+                            {{ $v->qty }}
+                        </td>
+                        <td>
                             {{ $v->harga }}
                         </td>
                         <td>
@@ -68,7 +74,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-id="{{$v->id}}" data-nama="{{$v->nama}}" data-harga="{{$v->harga}}" data-satuan="{{$v->satuan}}"
+                                    data-id="{{$v->id}}" data-qty="{{$v->qty}}" data-nama="{{$v->nama}}" data-harga="{{$v->harga}}" data-satuan="{{$v->satuan}}"
                                     data-bs-target="#editbarang">Ubah</button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="hapus('{{$v->id}}') ">hapus</button>
                         </td>
@@ -130,21 +136,26 @@
                         <div class="modal-body">
                             <form action="/admin/barang/edit" method="POST">
                                 @csrf
-                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="id" id="edit_id">
                                 <div class="mb-3">
                                     <label for="namabarang" class="form-label">Nama Barang</label>
-                                    <input type="text" class="form-control" id="nama" name="nama">
+                                    <input type="text" class="form-control" id="edit_nama" name="nama">
                                 </div>
 
 
                                 <div class="mb-3">
+                                    <label for="qty" class="form-label">Qty</label>
+                                    <input type="number" class="form-control" id="edit_qty" name="qty">
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="harga" class="form-label">Harga</label>
-                                    <input type="number" class="form-control" id="harga" name="harga">
+                                    <input type="number" class="form-control" id="edit_harga" name="harga">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="satuan" class="form-label">Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" name="satuan">
+                                    <input type="text" class="form-control" id="edit_satuan" name="satuan">
                                 </div>
 
                                 <div class="mb-4"></div>
@@ -170,11 +181,13 @@
                 let nama = button.data('nama');
                 let harga = button.data('harga');
                 let satuan = button.data('satuan');
+                let qty = button.data('qty');
                 var modal = $(this);
-                modal.find('#id').val(id);
-                modal.find('#nama').val(nama);
-                modal.find('#harga').val(harga);
-                modal.find('#satuan').val(satuan);
+                modal.find('#edit_id').val(id);
+                modal.find('#edit_nama').val(nama);
+                modal.find('#edit_harga').val(harga);
+                modal.find('#edit_satuan').val(satuan);
+                modal.find('#edit_qty').val(qty);
             })
         });
 
