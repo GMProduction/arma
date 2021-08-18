@@ -34,7 +34,7 @@
                     Minggu Ke
                 </th>
                 <th>
-                    Nama Barang
+                    Nama Roti
                 </th>
                 <th>
                     Hasil Prediksi
@@ -46,7 +46,7 @@
 
 
                 <th>
-                    Barang di input
+                    Roti di input
                 </th>
 
                 <th>
@@ -70,7 +70,7 @@
                             {{ $p->prediksi }}
                         </td>
                         <td>
-                            {{ $p->kesalahan }}
+                            {{ $p->kesalahan }} %
                         </td>
                         <td>
                             {{ $p->masuk }}
@@ -108,11 +108,11 @@
                             <form>
                                 <input type="hidden" id="barang_predict_id" value="0">
                                 <div class="mb-3">
-                                    <label for="barang" class="form-label">Barang</label>
+                                    <label for="barang" class="form-label">Roti</label>
                                     <div class="d-flex">
                                         <select id="daftar_barang" class="form-select"
                                                 aria-label="Default select example" name="barang">
-                                            <option selected>Pilih Barang</option>
+                                            <option selected>Pilih Roti</option>
                                             @foreach($data as $v)
                                                 <option value="{{ $v->id }}">{{ $v->nama }}</option>
                                             @endforeach

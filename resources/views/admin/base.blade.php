@@ -47,7 +47,7 @@
             <a href="/admin/barang">
                 <li href="#" class="nav-link t-white">
                     <i class="bx bxs-cube"></i>
-                    <span class="mx-2">Master barang</span>
+                    <span class="mx-2">Master Roti</span>
                 </li>
             </a>
 
@@ -55,7 +55,7 @@
             <a href="/admin/barangmasuk">
                 <li href="#" class="nav-link t-white">
                     <i class='bx bx-archive-in'></i>
-                    <span class="mx-2">Data Barang Masuk</span>
+                    <span class="mx-2">Data Roti Masuk</span>
                 </li>
 
             </a>

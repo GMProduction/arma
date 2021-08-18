@@ -34,7 +34,7 @@
                         Minggu Ke
                     </th>
                     <th>
-                        Nama Barang
+                        Nama Roti
                     </th>
                     <th>
                         Qty
@@ -99,10 +99,10 @@
 
 
                                 <div class="mb-3">
-                                    <label for="barang" class="form-label">Barang</label>
+                                    <label for="barang" class="form-label">Roti</label>
                                     <div class="d-flex">
                                         <select id="barang-option" class="form-select" aria-label="Default select example" name="barang">
-                                            <option selected>Pilih Barang</option>
+                                            <option selected>Pilih Roti</option>
                                             @foreach($barang as $v)
                                                 <option value="{{ $v->id }}" data-harga="{{$v->harga}}">{{ $v->nama }}</option>
                                             @endforeach

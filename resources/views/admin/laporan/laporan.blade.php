@@ -30,7 +30,7 @@
                         #
                     </th>
                     <th>
-                        Nama Barang
+                        Nama Roti
                     </th>
                     <th>
                         Minggu (Penjualan)

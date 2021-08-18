@@ -24,7 +24,7 @@
 
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5>Data Barang</h5>
+                <h5>Data Roti</h5>
                 <button type="button ms-auto" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                     data-bs-target="#tambahbarang">Tambah Data</button>
             </div>
@@ -36,7 +36,7 @@
                         #
                     </th>
                     <th>
-                        nama Barang
+                        Nama Roti
                     </th>
                     <th>
                         Qty
@@ -95,14 +95,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tambah Master Barang</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Master Roti</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="/admin/barang/tambah" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="namabarang" class="form-label">Nama Barang</label>
+                                    <label for="namabarang" class="form-label">Nama Roti</label>
                                     <input type="text" class="form-control" id="namabarang" name="nama">
                                 </div>
 
@@ -130,7 +130,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tambah Master Barang</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Master Roti</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -138,7 +138,7 @@
                                 @csrf
                                 <input type="hidden" name="id" id="edit_id">
                                 <div class="mb-3">
-                                    <label for="namabarang" class="form-label">Nama Barang</label>
+                                    <label for="namabarang" class="form-label">Nama Roti</label>
                                     <input type="text" class="form-control" id="edit_nama" name="nama">
                                 </div>
 
