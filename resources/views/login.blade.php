@@ -31,7 +31,7 @@
 						<div class="text-center">
 							<img class="logo" src="https://cdn3.iconfinder.com/data/icons/galaxy-open-line-gradient-i/200/account-256.png">
 						</div>
-					<h3 class="text-logo">Login sebagai admin</h3>
+					<h3 class="text-logo">Login</h3>
 					<br>
 					<form class="text-center">
 						<input class="form-control border-0" type="" name="" placeholder="Type Your Username">

@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('pimpinan.base')
 @section('title')
     Dashboard
 @endsection
@@ -7,7 +7,7 @@
     <section class="m-2">
 
 
- 
+       
 
     </section>
 

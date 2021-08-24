@@ -49,3 +49,12 @@ Route::get('/admin/barangmasuk', function () {
 Route::get('/admin/admin', function () {
     return view('admin/admin/admin');
 });
+
+
+Route::get('/pimpinan', function () {
+    return view('pimpinan/dashboard');
+});
+
+Route::get('/pimpinan/laporan', function () {
+    return view('pimpinan/laporan/laporan');
+});
